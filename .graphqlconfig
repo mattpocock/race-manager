@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "pronunciation": {
+      "schemaPath": "serverSchema.graphql",
+      "extensions": {
+        "endpoints": {
+          "dev": "http://localhost:4001/graphql"
+        }
+      }
+    }
+  }
+}

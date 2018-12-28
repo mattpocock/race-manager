@@ -1,0 +1,58 @@
+# source: http://localhost:4001/graphql
+# timestamp: Fri Dec 28 2018 22:14:24 GMT+0000 (Greenwich Mean Time)
+
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+type Lap {
+  _id: ID!
+  number: Int!
+  time: Int!
+}
+
+type Mutation {
+  addRacer(raceId: ID!, sailNumber: String!): Racer!
+  deleteRacer(raceId: ID!, racerId: ID!): Boolean
+  updateRacer(id: ID!, sailNumber: String!): Racer!
+  addRace: Race!
+  updateRace(id: ID!, startTime: Int, currentTime: Int): Race!
+  deleteAllRacers: Boolean
+  deleteAllRaces: Boolean
+  addLap(racerId: ID!, time: Int!, number: Int!): Lap!
+  removeLap(racerId: ID!, lapId: ID!): String!
+  undoLap(racerId: ID!): Racer!
+}
+
+type Query {
+  raceById(id: ID!): Race!
+  racerById(id: ID!): Racer!
+  allRacers: [Racer]!
+  allRaces: [Race]!
+  mostRecentRace: Race!
+}
+
+type Race {
+  _id: ID!
+  racerIds: [ID]!
+  racers: [Racer]!
+  startTime: Int
+  currentTime: Int
+  timeAdded: Float!
+}
+
+type Racer {
+  _id: ID!
+  sailNumber: String!
+  lapIds: [ID]!
+  laps: [Lap]!
+  mostRecentLap: RecentLap!
+}
+
+type RecentLap {
+  number: Int!
+  time: Int!
+}
