@@ -272,70 +272,94 @@ export default class extends React.PureComponent {
                                       racer._id,
                                     )}
                                   >
-                                    {newLap => (
-                                      <>
-                                        <CardActionArea
-                                          onClick={newLap}
-                                        >
-                                          <CardHeader
-                                            title={
-                                              racer.sailNumber
+                                    {newLap => {
+                                      const submitNewLap = () =>
+                                        newLap({
+                                          optimisticResponse: {
+                                            addLap: {
+                                              number:
+                                                racer
+                                                  .mostRecentLap
+                                                  .number +
+                                                1,
+                                              time:
+                                                timer +
+                                                (data
+                                                  .mostRecentRace
+                                                  .currentTime ||
+                                                  0),
+                                              __typename:
+                                                'RecentLap',
+                                            },
+                                          },
+                                        });
+                                      return (
+                                        <>
+                                          <CardActionArea
+                                            onClick={
+                                              submitNewLap
                                             }
-                                            subheader={`Lap ${
-                                              racer
-                                                .mostRecentLap
-                                                .number
-                                            } (${moment(
-                                              racer
-                                                .mostRecentLap
-                                                .time,
-                                            ).format(
-                                              'mm:ss',
-                                            )})`}
-                                          />
-                                        </CardActionArea>
-                                        <CardActions>
-                                          <Grid
-                                            container
-                                            justify="space-between"
                                           >
-                                            <Button
-                                              style={{
-                                                height: 40,
-                                              }}
-                                              variant="outlined"
-                                              size="small"
-                                              onClick={
-                                                newLap
+                                            <CardHeader
+                                              title={
+                                                racer.sailNumber
                                               }
+                                              subheader={`Lap ${
+                                                racer
+                                                  .mostRecentLap
+                                                  .number
+                                              } (${moment(
+                                                racer
+                                                  .mostRecentLap
+                                                  .time,
+                                              ).format(
+                                                'mm:ss',
+                                              )})`}
+                                            />
+                                          </CardActionArea>
+                                          <CardActions>
+                                            <Grid
+                                              container
+                                              justify="space-between"
                                             >
-                                              Lap
-                                            </Button>
-                                            <Button
-                                              style={{
-                                                height: 40,
-                                              }}
-                                              variant="outlined"
-                                              size="small"
-                                              disabled={
-                                                popperOpen ===
-                                                racer._id
-                                              }
-                                              onClick={() =>
-                                                this.setState(
-                                                  {
-                                                    popperOpen:
-                                                      racer._id,
-                                                  },
-                                                )
-                                              }
-                                            >
-                                              <MenuIcon color="inherit" />
-                                            </Button>
-                                          </Grid>
-                                        </CardActions>
-                                      </>
-                                    )}
+                                              <Button
+                                                style={{
+                                                  height: 40,
+                                                }}
+                                                variant="outlined"
+                                                size="small"
+                                                onClick={
+                                                  submitNewLap
+                                                }
+                                              >
+                                                Lap
+                                              </Button>
+                                              <Button
+                                                style={{
+                                                  height: 40,
+                                                }}
+                                                variant="outlined"
+                                                size="small"
+                                                disabled={
+                                                  popperOpen ===
+                                                  racer._id
+                                                }
+                                                onClick={() =>
+                                                  this.setState(
+                                                    {
+                                                      popperOpen:
+                                                        racer._id,
+                                                    },
+                                                  )
+                                                }
+                                              >
+                                                <MenuIcon color="inherit" />
+                                              </Button>
+                                            </Grid>
+                                          </CardActions>
+                                        </>
+                                      );
+                                    }}
                                   </Mutation>
                                 </Card>
                               </Grid>
